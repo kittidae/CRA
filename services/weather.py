@@ -1,16 +1,16 @@
-import feedparser
+import requests
 
-def get_news():
-    url = "https://news.google.com/rss/search?q=เกษตร+ไทย&hl=th&gl=TH&ceid=TH:th"
+def get_weather():
+    url = "https://api.open-meteo.com/v1/forecast"
 
-    feed = feedparser.parse(url)
+    params = {
+        "latitude": 15.0,
+        "longitude": 100.0,
+        "daily": "temperature_2m_max,precipitation_sum",
+        "timezone": "Asia/Bangkok"
+    }
 
-    news = []
+    res = requests.get(url, params=params, timeout=10)
+    data = res.json()
 
-    for entry in feed.entries[:10]:
-        news.append({
-            "title": entry.title,
-            "date": getattr(entry, "published", "")
-        })
-
-    return news
+    return data["daily"]
