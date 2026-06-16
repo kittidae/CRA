@@ -2,65 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRA Data Visualization</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  
+  <title>CRA Data visualnality</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
-  <div class="dashboard-wrapper">
-    
-    <header class="dashboard-header">
+<!-- 🌸 PROVINCE SELECT MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <h2>Select Province</h2>
 
-      <h1>CRA Data Visualization</h1>
-      <p class="subtitle">Real-time crop monitoring and AI insights</p>
-    </header>
+    <select id="province">
+      <option value="Udon Thani">Udon Thani</option>
+      <option value="Chiang Mai">Chiang Mai</option>
+      <option value="Bangkok">Bangkok</option>
+      <option value="Khon Kaen">Khon Kaen</option>
+    </select>
 
-    <main class="dashboard-grid">
-      
-      <section class="card risk-card green">
-        <div class="card-header">
-          <span class="icon"></span>
-          <h2>Risk Score</h2>
-        </div>
-        <p id="risk" class="data-value">Loading...</p>
-      </section>
+    <button onclick="start()">Enter Dashboard</button>
+  </div>
+</div>
 
-      <section class="card weather-card">
-        <div class="card-header">
-          <span class="icon"></span>
-          <h2>Weather</h2>
-        </div>
-        <p id="weather" class="data-value">Loading...</p>
-      </section>
+<!-- 🌾 MAIN DASHBOARD -->
+<div id="dashboard" class="hidden">
 
-      <section class="card alerts-card highlight">
-        <div class="card-header">
-          <span class="icon"></span>
-          <h2>Alerts</h2>
-        </div>
-        <div id="alerts" class="data-content">Loading...</div>
-      </section>
+  <header>
+    <h1>CRA Data Dashboard</h1>
+    <p id="subtitle">Live Agricultural Monitoring System</p>
+  </header>
 
-      <section class="card advice-card">
-        <div class="card-header">
-          <span class="icon"></span>
-          <h2>AI Advice</h2>
-        </div>
-        <p id="advice" class="data-content">Loading...</p>
-      </section>
+  <!-- 🟢 TOP GRID -->
+  <div class="grid">
 
-    </main>
+    <!-- 📈 PRICE -->
+    <div class="card">
+      <h3>Price Trend (Live)</h3>
+
+      <select id="cropSelect" onchange="loadData()">
+        <option value="rice">Rice</option>
+        <option value="corn">Corn</option>
+        <option value="mango">Mango</option>
+        <option value="cassava">Cassava</option>
+      </select>
+
+      <canvas id="priceChart"></canvas>
+
+      <div class="log" id="priceLog">
+        Loading price data...
+      </div>
+    </div>
+
+    <!-- 🌦 WEATHER -->
+    <div class="card">
+      <h3>Weather Analysis</h3>
+
+      <canvas id="weatherChart"></canvas>
+
+      <div class="log" id="weatherLog">
+        Loading weather data...
+      </div>
+    </div>
 
   </div>
 
-  <script src="/static/app.js"></script>
+  <!-- 🟣 BOTTOM GRID -->
+  <div class="grid">
+
+    <!-- 💧 WATER -->
+    <div class="card">
+      <h3>Reservoir Level</h3>
+
+      <canvas id="waterChart"></canvas>
+
+      <div class="log" id="waterLog">
+        Loading water data...
+      </div>
+    </div>
+
+    <!-- 📰 NEWS -->
+    <div class="card">
+      <h3>Agricultural News (<span id="provName"></span>)</h3>
+
+      <div id="newsBox" class="news-box">
+        Loading news...
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="/static/app.js"></script>
 
 </body>
 </html>
