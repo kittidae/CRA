@@ -2,35 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🌾 Agri AI Dashboard</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
-  <div class="container">
+  <div class="dashboard-wrapper">
+    
+    <header class="dashboard-header">
+      <h1>🌾 Agri AI Intelligence System</h1>
+      <p class="subtitle">Real-time crop monitoring and AI insights</p>
+    </header>
 
-    <h1>🌾 Agri AI Intelligence System</h1>
+    <main class="dashboard-grid">
+      
+      <section class="card risk-card green">
+        <div class="card-header">
+          <span class="icon">⚠</span>
+          <h2>Risk Score</h2>
+        </div>
+        <p id="risk" class="data-value">Loading...</p>
+      </section>
 
-    <div class="card green">
-      <h2>⚠ Risk Score</h2>
-      <p id="risk">--</p>
-    </div>
+      <section class="card weather-card">
+        <div class="card-header">
+          <span class="icon">🌦</span>
+          <h2>Weather</h2>
+        </div>
+        <p id="weather" class="data-value">Loading...</p>
+      </section>
 
-    <div class="card">
-      <h2>🌦 Weather</h2>
-      <p id="weather">--</p>
-    </div>
+      <section class="card alerts-card highlight">
+        <div class="card-header">
+          <span class="icon">🚨</span>
+          <h2>Alerts</h2>
+        </div>
+        <div id="alerts" class="data-content">Loading...</div>
+      </section>
 
-    <div class="card highlight">
-      <h2>🚨 Alerts</h2>
-      <div id="alerts"></div>
-    </div>
+      <section class="card advice-card">
+        <div class="card-header">
+          <span class="icon">🤖</span>
+          <h2>AI Advice</h2>
+        </div>
+        <p id="advice" class="data-content">Loading...</p>
+      </section>
 
-    <div class="card">
-      <h2>🤖 AI Advice</h2>
-      <p id="advice">--</p>
-    </div>
+    </main>
 
   </div>
 
