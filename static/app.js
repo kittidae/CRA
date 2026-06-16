@@ -20,7 +20,6 @@ function start() {
 
 /* 📊 INIT CHARTS */
 function initCharts() {
-
   priceChart = new Chart(document.getElementById("priceChart"), {
     type: "line",
     data: {
@@ -73,7 +72,7 @@ function initCharts() {
 
 /* 📡 FETCH REAL DATA */
 async function loadData() {
-
+  // Note: If your backend returns data, make sure to use 'data' below instead of Math.random()
   const res = await fetch("/analyze", { method: "POST" });
   const data = await res.json();
 
@@ -88,11 +87,10 @@ async function loadData() {
   priceChart.data.datasets[0].data.push(price);
 
   trim(priceChart);
-
   priceChart.update();
 
-  document.getElementById("priceLog").innerHTML =
-    Latest price: <b>${price.toFixed(2)} THB</b>;
+  // Fixed: Added backticks
+  document.getElementById("priceLog").innerHTML = `Latest price: <b>${price.toFixed(2)} THB</b>`;
 
   /* =======================
      🌦 WEATHER
@@ -105,11 +103,10 @@ async function loadData() {
   weatherChart.data.datasets[1].data.push(rain);
 
   trim(weatherChart);
-
   weatherChart.update();
 
-  document.getElementById("weatherLog").innerHTML =
-    Avg Temp: ${avg(weatherChart.data.datasets[0].data).toFixed(1)}°C | Rain: ${avg(weatherChart.data.datasets[1].data).toFixed(1)}%;
+  // Fixed: Added backticks
+  document.getElementById("weatherLog").innerHTML = `Avg Temp: ${avg(weatherChart.data.datasets[0].data).toFixed(1)}°C | Rain: ${avg(weatherChart.data.datasets[1].data).toFixed(1)}%`;
 
   /* =======================
      💧 WATER
@@ -120,11 +117,10 @@ async function loadData() {
   waterChart.data.datasets[0].data.push(water);
 
   trim(waterChart);
-
   waterChart.update();
 
-  document.getElementById("waterLog").innerHTML =
-    Reservoir Level: ${water.toFixed(1)}% (stable trend);
+  // Fixed: Added backticks
+  document.getElementById("waterLog").innerHTML = `Reservoir Level: ${water.toFixed(1)}% (stable trend)`;
 
   /* =======================
      📰 NEWS (PROVINCE)
@@ -156,5 +152,5 @@ function trim(chart) {
 }
 
 function avg(arr) {
-  return arr.reduce((a,b)=>a+b,0) / arr.length;
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
