@@ -1,0 +1,33 @@
+body {
+  font-family: Arial;
+  background: white;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: #f9fafb;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 12px;
+}
+
+.green {
+  border-left: 5px solid #22c55e;
+}
+
+.highlight {
+  border-left: 5px solid #ef4444;
+  background: #fff1f2;
+}
+
+.alert {
+  background: #fee2e2;
+  padding: 8px;
+  margin: 5px 0;
+  border-left: 3px solid red;
+}
