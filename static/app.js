@@ -23,6 +23,7 @@ function start() {
 
   if (!priceChart) {
     initCharts();
+    preFillData(); // สร้างข้อมูลย้อนหลังให้กราฟแสดงเส้นได้ทันที
   }
 
   loadAllData();
@@ -58,6 +59,25 @@ function updateRefreshLabel() {
   const s = Math.floor(secondsToRefresh % 60).toString().padStart(2, "0");
   const el = document.getElementById("nextRefresh");
   if (el) el.innerText = `${m}:${s}`;
+}
+
+// ฟังก์ชันจำลองข้อมูลย้อนหลังให้กราฟมีเส้นตั้งแต่เริ่มเปิดเว็บ
+function preFillData() {
+  let now = new Date();
+  for (let i = 5; i > 0; i--) {
+    let pastTime = new Date(now.getTime() - i * REFRESH_MS);
+    let timeStr = pastTime.toLocaleTimeString();
+
+    priceChart.data.labels.push(timeStr);
+    priceChart.data.datasets[0].data.push(18 + Math.random() * 12);
+
+    weatherChart.data.labels.push(timeStr);
+    weatherChart.data.datasets[0].data.push(25 + Math.random() * 10);
+    weatherChart.data.datasets[1].data.push(Math.random() * 100);
+
+    waterChart.data.labels.push(timeStr);
+    waterChart.data.datasets[0].data.push(60 + Math.random() * 25);
+  }
 }
 
 // ฟังก์ชันหลัก: โหลดข้อมูลทั้งหมดพร้อมกัน
@@ -174,7 +194,7 @@ function initCharts() {
         borderColor: "#D9A441",
         backgroundColor: "rgba(217,164,65,0.12)",
         borderWidth: 2,
-        pointRadius: 0,
+        pointRadius: 2, // ปรับให้แสดงจุดเล็กๆ เพื่อความสวยงาม
         fill: true,
         tension: 0.35
       }]
@@ -193,7 +213,7 @@ function initCharts() {
           borderColor: "#BC5A2E",
           backgroundColor: "rgba(188,90,46,0.08)",
           borderWidth: 2,
-          pointRadius: 0,
+          pointRadius: 2, // ปรับให้แสดงจุดเล็กๆ
           tension: 0.35
         },
         {
@@ -202,7 +222,7 @@ function initCharts() {
           borderColor: "#2E7CA6",
           backgroundColor: "rgba(46,124,166,0.08)",
           borderWidth: 2,
-          pointRadius: 0,
+          pointRadius: 2, // ปรับให้แสดงจุดเล็กๆ
           tension: 0.35
         }
       ]
@@ -223,96 +243,13 @@ function initCharts() {
         borderColor: "#2E7CA6",
         backgroundColor: "rgba(46,124,166,0.1)",
         borderWidth: 2,
-        pointRadius: 0,
+        pointRadius: 2, // ปรับให้แสดงจุดเล็กๆ
         fill: true,
         tension: 0.35
       }]
     },
     options: baseGridOptions()
   });
-}
-
-/* FETCH + RENDER */
-async function loadData() {
-  // Backend hook: replace the randomized values below with data once
-  // the /analyze endpoint returns real readings.
-  try {
-    await fetch("/analyze", { method: "POST" });
-  } catch (err) {
-    console.warn("Backend /analyze not reachable, using simulated data.", err);
-  }
-
-  const now = new Date().toLocaleTimeString();
-
-  /* PRICE */
-  let price = 18 + Math.random() * 12;
-
-  priceChart.data.labels.push(now);
-  priceChart.data.datasets[0].data.push(price);
-  trim(priceChart);
-  priceChart.update();
-
-  document.getElementById("priceValue").innerText = price.toFixed(2);
-  document.getElementById("priceLog").innerHTML = `Latest reading at ${now}`;
-
-  const deltaEl = document.getElementById("priceDelta");
-  if (prevPrice !== null) {
-    const diff = price - prevPrice;
-    const sign = diff >= 0 ? "+" : "";
-    deltaEl.innerText = `${sign}${diff.toFixed(2)}`;
-    deltaEl.className = "price-delta " + (diff >= 0 ? "up" : "down");
-  } else {
-    deltaEl.innerText = "baseline";
-    deltaEl.className = "price-delta";
-  }
-  prevPrice = price;
-
-  /* WEATHER */
-  let temp = 25 + Math.random() * 10;
-  let rain = Math.random() * 100;
-
-  weatherChart.data.labels.push(now);
-  weatherChart.data.datasets[0].data.push(temp);
-  weatherChart.data.datasets[1].data.push(rain);
-  trim(weatherChart);
-  weatherChart.update();
-
-  document.getElementById("tempValue").innerText = `${temp.toFixed(1)}°C`;
-  document.getElementById("tempBar").style.width = `${clamp((temp - 20) / 20 * 100, 0, 100)}%`;
-
-  document.getElementById("rainValue").innerText = `${rain.toFixed(0)}%`;
-  document.getElementById("rainBar").style.width = `${clamp(rain, 0, 100)}%`;
-
-  document.getElementById("weatherLog").innerHTML =
-    `Avg temp ${avg(weatherChart.data.datasets[0].data).toFixed(1)}°C · Avg rain ${avg(weatherChart.data.datasets[1].data).toFixed(1)}%`;
-
-  /* WATER / RESERVOIR */
-  let water = 60 + Math.random() * 25;
-
-  waterChart.data.labels.push(now);
-  waterChart.data.datasets[0].data.push(water);
-  trim(waterChart);
-  waterChart.update();
-
-  document.getElementById("tankFill").style.height = `${clamp(water, 0, 100)}%`;
-  document.getElementById("tankReadout").innerText = `${water.toFixed(0)}%`;
-  document.getElementById("waterLog").innerHTML = `Reservoir level ${water.toFixed(1)}% · stable trend`;
-
-  /* NEWS */
-  document.getElementById("newsBox").innerHTML = `
-    <div class="news-item">
-      Rainfall pattern changing in ${province} this week
-      <small>${now}</small>
-    </div>
-    <div class="news-item">
-      Crop price fluctuation detected in regional market
-      <small>${now}</small>
-    </div>
-    <div class="news-item">
-      Agricultural advisory update issued by local office
-      <small>${now}</small>
-    </div>
-  `;
 }
 
 /* UTIL */
@@ -324,7 +261,7 @@ function trim(chart) {
 }
 
 function avg(arr) {
-  if (!arr || arr.length === 0) return 0; // Added a safe check to prevent division by zero
+  if (!arr || arr.length === 0) return 0; 
   return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 
