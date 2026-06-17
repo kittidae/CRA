@@ -599,7 +599,10 @@
     border-color: var(--monsoon) !important; 
     box-shadow: 0 4px 12px rgba(87, 157, 190, 0.15) !important; /* เปลี่ยนสีเงาเวลากด */
   }
-
+  .custom-select:hover, .custom-select:focus {
+    border-color: var(--monsoon); /* ใช้สีฟ้าของธีมแทนให้เข้ากัน */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
 
   /* ===================================================
    MOBILE RESPONSIVE (รองรับการใช้งานบนมือถือ)
