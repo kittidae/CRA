@@ -3,10 +3,10 @@
    =================================================== */
 :root {
   /* color */
-  --paddy:        hsl(150, 33%, 60%);
-  --paddy-light:  #7ac49c;
-  --paddy-deep:   #163826;
-  --husk:         #18fd03;
+  --paddy:        hsl(150, 58%, 79%);
+  --paddy-light:  #abf8cf;
+  --paddy-deep:   hsl(148, 15%, 81%);
+  --husk:         #e7ece6;
   --husk-soft:    #FBE7C2;
   --clay:         #BC5A2E;
   --clay-soft:    #F3DCCB;
