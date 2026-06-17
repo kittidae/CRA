@@ -169,7 +169,7 @@ button:active { transform: translateY(1px); }
   background: var(--paddy);
   background-image: linear-gradient(180deg, var(--paddy) 0%, var(--paddy-deep) 100%);
   color: #fff;
-  padding: 30px 32px 0;
+  padding: 30px 32px 30px;
 }
  
 .board-top {
@@ -222,7 +222,7 @@ button:active { transform: translateY(1px); }
  
 .ticker {
   max-width: 1220px;
-  margin: 22px auto 0;
+  margin: 45px auto 0;
   background: var(--paddy-deep);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
