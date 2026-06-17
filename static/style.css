@@ -574,3 +574,73 @@
     border-color: var(--monsoon); /* ใช้สีฟ้าของธีมแทนให้เข้ากัน */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   }
+
+  /* ===================================================
+   MOBILE RESPONSIVE (รองรับการใช้งานบนมือถือ)
+   =================================================== */
+@media (max-width: 768px) {
+  
+  /* ปรับโครงสร้างกริดหลักให้เรียงซ้อนกันจากบนลงล่าง */
+  .grid-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px;
+  }
+  
+  .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px;
+  }
+
+  /* ปรับส่วนหัว Header (โลโก้ และ ปุ่มเปลี่ยนจังหวัด) */
+  .board-top {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px;
+  }
+
+  /* แถบ Ticker ด้านบน (Live, เวลา, จังหวัด) ให้สามารถปัดซ้ายขวาได้ */
+  .ticker {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding-bottom: 8px; /* เผื่อพื้นที่ให้ Scrollbar ถ้ามี */
+    -webkit-overflow-scrolling: touch; /* ให้ปัดลื่นขึ้นใน iOS */
+  }
+
+  /* ปรับหัวการ์ด (ที่มีปุ่ม Select) ให้ซ้อนกันถ้าพื้นที่ไม่พอ */
+  .card-head {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px;
+  }
+
+  /* บังคับกล่องเลือกพืชผลให้กว้างเต็มหน้าจอเพื่อกดง่ายขึ้นในมือถือ */
+  .custom-select {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* ปรับกราฟิกเขื่อนระดับน้ำให้เรียงซ้อนกันและอยู่กึ่งกลาง */
+  .tank-row {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 24px;
+  }
+  
+  .tank-side {
+    width: 100% !important;
+    text-align: center;
+  }
+
+  /* ปรับขนาดกล่อง Modal (หน้าเลือกจังหวัดตอนแรก) ให้พอดีขอบจอมือถือ */
+  .modal-box {
+    width: 90% !important;
+    padding: 24px !important;
+  }
+  
+  /* ปรับกราฟให้ไม่ล้นจอ */
+  .chart {
+    width: 100% !important;
+  }
+}
