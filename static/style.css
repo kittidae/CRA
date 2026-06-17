@@ -180,7 +180,7 @@
     background: var(--paddy);
     background-image: linear-gradient(135deg, var(--paddy) 0%, var(--paddy-deep) 100%);
     color: #fff;
-    padding: 40px 32px 36px; /* ขยาย Header ให้ดูโปร่งขึ้น */
+    padding: 18px 32px 36px; /* ขยาย Header ให้ดูโปร่งขึ้น */
   }
   
   .board-top {
@@ -236,11 +236,11 @@
      =================================================== */
   .ticker {
     max-width: 1220px;
-    margin: 40px auto 0; /* ดันลงมาให้ห่างจาก Header */
+    margin: 20px auto 0; /* ดันลงมาให้ห่างจาก Header */
     background: rgba(255, 255, 255, 0.15); /* ขาวโปร่งแสง */
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: var(--radius-sm); /* โค้งมนเท่ากันทุกมุม */
-    padding: 14px 24px;
+    padding: 12px 20px;
     font-family: var(--font-mono);
     font-size: 13px;
     color: rgba(255,255,255,0.85); /* ข้อความปกติสีขาวอมเทา */
