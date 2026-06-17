@@ -15,7 +15,6 @@
 
 <body>
 
-<!-- PROVINCE SELECT MODAL -->
 <div id="modal" class="modal">
   <div class="modal-box">
     <span class="modal-eyebrow">CRA &middot; Data Board</span>
@@ -34,16 +33,14 @@
   </div>
 </div>
 
-<!-- MAIN DASHBOARD -->
 <div id="dashboard" class="hidden">
 
-  <!-- BOARD HEADER -->
   <header class="board">
     <div class="board-top">
       <div class="board-mark">
         <div>
           <h1>CRA</h1>
-          <p cฟlass="board-tagline">ระบบติดตามข่าวสารทางการเกษตr</p>
+          <p class="board-tagline">ระบบติดตามข่าวสารทางการเกษตร</p>
         </div>
       </div>
       <button class="change-province" onclick="openModal()">
@@ -52,7 +49,6 @@
       </button>
     </div>
 
-    <!-- TICKER STRIP -->
     <div class="ticker">
       <span class="ticker-chip ticker-chip--live">
         <span class="dot" aria-hidden="true"></span>LIVE
@@ -77,23 +73,9 @@
 
   <main class="grid-wrap">
 
-    <!-- TOP ROW -->
     <div class="grid">
 
-      <!-- PRICE -->
-      
-
-        <div class="price-readout">
-          <span id="priceValue" class="price-value">—</span>
-          <span class="price-unit">THB / unit</span>
-          <span id="priceDelta" class="price-delta">—</span>
-        </div>
-
-        <canvas id="priceChart" class="chart chart--tall"></canvas>
-        <div class="log" id="priceLog">Loading price data…</div>
-      </section>
-
-      <!-- WEATHER --><section class="card" aria-labelledby="priceTitle">
+      <section class="card" aria-labelledby="priceTitle">
         <div class="card-head">
           <div>
             <span class="card-eyebrow">ข้อมูลการตลาด</span>
@@ -106,8 +88,18 @@
             <option value="mango">มะม่วง</option>
             <option value="cassava">มันสำปะหลัง</option>
           </select>
-          
         </div>
+
+        <div class="price-readout">
+          <span id="priceValue" class="price-value">—</span>
+          <span class="price-unit">THB / unit</span>
+          <span id="priceDelta" class="price-delta">—</span>
+        </div>
+
+        <canvas id="priceChart" class="chart chart--tall"></canvas>
+        <div class="log" id="priceLog">Loading price data…</div>
+      </section>
+
       <section class="card" aria-labelledby="weatherTitle">
         <div class="card-head">
           <div>
@@ -145,10 +137,8 @@
 
     </div>
 
-    <!-- BOTTOM ROW -->
     <div class="grid">
 
-      <!-- WATER -->
       <section class="card" aria-labelledby="waterTitle">
         <div class="card-head">
           <div>
@@ -175,7 +165,6 @@
         </div>
       </section>
 
-      <!-- NEWS -->
       <section class="card" aria-labelledby="newsTitle">
         <div class="card-head">
           <div>
