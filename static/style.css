@@ -222,10 +222,10 @@ button:active { transform: translateY(1px); }
  
 .ticker {
   max-width: 1220px;
-  margin: 45px auto 0;
-  background: var(--paddy-deep);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  margin: 40px auto 0;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(161, 214, 198, 0.1);
+  border-radius: var(--radius-sm);
   padding: 14px 22px;
   font-family: var(--font-mono);
   font-size: 13px;
