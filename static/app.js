@@ -3,7 +3,7 @@ let priceChart, weatherChart, waterChart;
 let prevPrice = null;
 let refreshIntervalId = null;
 let countdownIntervalId = null;
-let secondsToRefresh = 60 * 60;
+let secondsToRefresh = 3600; // 1 hour in seconds
 
 const REFRESH_MS = 60 * 60 * 1000; // 1 hour
 
@@ -28,8 +28,8 @@ function start() {
   loadData();
   startClock();
 
+  // Handle auto-refresh interval
   if (!refreshIntervalId) {
-    secondsToRefresh = REFRESH_MS / 1000;
     refreshIntervalId = setInterval(() => {
       loadData();
       secondsToRefresh = REFRESH_MS / 1000;
@@ -98,7 +98,7 @@ function initCharts() {
       labels: [],
       datasets: [
         {
-          label: "Temperature",
+          label: "Temp",
           data: [],
           borderColor: "#BC5A2E",
           backgroundColor: "rgba(188,90,46,0.08)",
@@ -144,88 +144,60 @@ function initCharts() {
 
 /* FETCH + RENDER */
 async function loadData() {
-  // Backend hook: replace the randomized values below with data once
-  // the /analyze endpoint returns real readings.
   try {
+    // Replace with your actual backend endpoint
     await fetch("/analyze", { method: "POST" });
   } catch (err) {
-    console.warn("Backend /analyze not reachable, using simulated data.", err);
+    console.warn("Backend /analyze not reachable, using simulated data.");
   }
 
   const now = new Date().toLocaleTimeString();
 
-  /* PRICE */
+  /* PRICE LOGIC */
   let price = 18 + Math.random() * 12;
-
-  priceChart.data.labels.push(now);
-  priceChart.data.datasets[0].data.push(price);
-  trim(priceChart);
-  priceChart.update();
-
+  updateChart(priceChart, now, price);
   document.getElementById("priceValue").innerText = price.toFixed(2);
-  document.getElementById("priceLog").innerHTML = `Latest reading at ${now}`;
+  document.getElementById("priceLog").innerText = `Latest reading at ${now}`;
 
   const deltaEl = document.getElementById("priceDelta");
   if (prevPrice !== null) {
     const diff = price - prevPrice;
-    const sign = diff >= 0 ? "+" : "";
-    deltaEl.innerText = `${sign}${diff.toFixed(2)}`;
+    deltaEl.innerText = (diff >= 0 ? "+" : "") + diff.toFixed(2);
     deltaEl.className = "price-delta " + (diff >= 0 ? "up" : "down");
-  } else {
-    deltaEl.innerText = "baseline";
-    deltaEl.className = "price-delta";
   }
   prevPrice = price;
 
-  /* WEATHER */
+  /* WEATHER LOGIC */
   let temp = 25 + Math.random() * 10;
   let rain = Math.random() * 100;
-
-  weatherChart.data.labels.push(now);
-  weatherChart.data.datasets[0].data.push(temp);
-  weatherChart.data.datasets[1].data.push(rain);
-  trim(weatherChart);
-  weatherChart.update();
-
+  updateChart(weatherChart, now, [temp, rain]);
+  
   document.getElementById("tempValue").innerText = `${temp.toFixed(1)}°C`;
   document.getElementById("tempBar").style.width = `${clamp((temp - 20) / 20 * 100, 0, 100)}%`;
-
   document.getElementById("rainValue").innerText = `${rain.toFixed(0)}%`;
   document.getElementById("rainBar").style.width = `${clamp(rain, 0, 100)}%`;
+  document.getElementById("weatherLog").innerText = `Avg temp ${avg(weatherChart.data.datasets[0].data).toFixed(1)}°C`;
 
-  document.getElementById("weatherLog").innerHTML =
-    `Avg temp ${avg(weatherChart.data.datasets[0].data).toFixed(1)}°C · Avg rain ${avg(weatherChart.data.datasets[1].data).toFixed(1)}%`;
-
-  /* WATER / RESERVOIR */
+  /* WATER LOGIC */
   let water = 60 + Math.random() * 25;
-
-  waterChart.data.labels.push(now);
-  waterChart.data.datasets[0].data.push(water);
-  trim(waterChart);
-  waterChart.update();
-
+  updateChart(waterChart, now, water);
   document.getElementById("tankFill").style.height = `${clamp(water, 0, 100)}%`;
   document.getElementById("tankReadout").innerText = `${water.toFixed(0)}%`;
-  document.getElementById("waterLog").innerHTML = `Reservoir level ${water.toFixed(1)}% · stable trend`;
-
-  /* NEWS */
-  document.getElementById("newsBox").innerHTML = `
-    <div class="news-item">
-      Rainfall pattern changing in ${province} this week
-      <small>${now}</small>
-    </div>
-    <div class="news-item">
-      Crop price fluctuation detected in regional market
-      <small>${now}</small>
-    </div>
-    <div class="news-item">
-      Agricultural advisory update issued by local office
-      <small>${now}</small>
-    </div>
-  `;
+  document.getElementById("waterLog").innerText = `Reservoir level ${water.toFixed(1)}% · stable trend`;
 }
 
-/* UTIL */
+/* HELPERS */
+function updateChart(chart, label, data) {
+  chart.data.labels.push(label);
+  if (Array.isArray(data)) {
+    chart.data.datasets.forEach((ds, i) => ds.data.push(data[i]));
+  } else {
+    chart.data.datasets[0].data.push(data);
+  }
+  trim(chart);
+  chart.update();
+}
+
 function trim(chart) {
   if (chart.data.labels.length > 10) {
     chart.data.labels.shift();
@@ -234,8 +206,7 @@ function trim(chart) {
 }
 
 function avg(arr) {
-  if (!arr || arr.length === 0) return 0; // Added a safe check to prevent division by zero
-  return arr.reduce((a, b) => a + b, 0) / arr.length;
+  return arr.length === 0 ? 0 : arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 
 function clamp(n, min, max) {
