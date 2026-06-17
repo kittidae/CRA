@@ -63,4 +63,213 @@
       </span>
       <span class="ticker-sep" aria-hidden="true"></span>
       <span class="ticker-chip">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4-4.5-7-8.2-7-11.5A7 7 0 0 1 19 9.5C19 12.8 16 16.5 12 21z" fill="none" stroke="currentColor" stroke-width="
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4-4.5-7-8.2-7-11.5A7 7 0 0 1 19 9.5C19 12.8 16 16.5 12 21z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        Province: <strong id="provName">—</strong>
+      </span>
+      <span class="ticker-sep" aria-hidden="true"></span>
+      <span class="ticker-chip">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="12" y1="12" x2="12" y2="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="12" y1="12" x2="15.5" y2="13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Local time: <strong id="clock">—</strong>
+      </span>
+      <span class="ticker-sep" aria-hidden="true"></span>
+      <span class="ticker-chip">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.5-5.5L20 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M20 12a8 8 0 0 1-13.5 5.5L4 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><polyline points="20 5 20 9 16 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><polyline points="4 19 4 15 8 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Next refresh: <strong id="nextRefresh">60:00</strong>
+      </span>
+    </div>
+  </header>
+
+  <main class="grid-wrap">
+
+    <div class="grid">
+
+      <section class="card" aria-labelledby="priceTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">ข้อมูลการตลาด</span>
+            <h3 id="priceTitle">ราคา</h3>
+          </div>
+          
+          <select id="cropSelect" class="custom-select" onchange="loadPriceData()">
+            <optgroup label="พืชไร่และธัญพืช">
+              <option value="rice">ข้าว</option>
+              <option value="corn_feed" selected>ข้าวโพดเลี้ยงสัตว์</option>
+              <option value="corn_sweet">ข้าวโพดหวาน</option>
+              <option value="cassava">มันสำปะหลัง</option>
+              <option value="sugarcane">อ้อย</option>
+              <option value="soybean">ถั่วเหลือง</option>
+              <option value="mungbean">ถั่วเขียว</option>
+              <option value="peanut">ถั่วลิสง</option>
+              <option value="sorghum">ข้าวฟ่าง</option>
+            </optgroup>
+
+            <optgroup label="พืชเศรษฐกิจ">
+              <option value="rubber">ยางพารา</option>
+              <option value="oil_palm">ปาล์มน้ำมัน</option>
+              <option value="coconut">มะพร้าว</option>
+              <option value="coffee">กาแฟ</option>
+              <option value="cocoa">โกโก้</option>
+              <option value="eucalyptus">ยูคาลิปตัส</option>
+            </optgroup>
+
+            <optgroup label="ผลไม้">
+              <option value="mango">มะม่วง</option>
+              <option value="durian">ทุเรียน</option>
+              <option value="mangosteen">มังคุด</option>
+              <option value="rambutan">เงาะ</option>
+              <option value="longan">ลำไย</option>
+              <option value="lychee">ลิ้นจี่</option>
+              <option value="banana_hom">กล้วยหอม</option>
+              <option value="banana_namwa">กล้วยน้ำว้า</option>
+              <option value="pineapple">สับปะรด</option>
+              <option value="pomelo">ส้มโอ</option>
+              <option value="tangerine">ส้มเขียวหวาน</option>
+              <option value="papaya">มะละกอ</option>
+              <option value="watermelon">แตงโม</option>
+              <option value="guava">ฝรั่ง</option>
+              <option value="dragon_fruit">แก้วมังกร</option>
+              <option value="longkong">ลองกอง</option>
+              <option value="tamarind">มะขามหวาน</option>
+              <option value="rose_apple">ชมพู่</option>
+              <option value="jujube">พุทรา</option>
+            </optgroup>
+
+            <optgroup label="ผักสด">
+              <option value="cabbage">กะหล่ำปลี</option>
+              <option value="chinese_cabbage">ผักกาดขาว</option>
+              <option value="chinese_kale">คะน้า</option>
+              <option value="choy_sum">กวางตุ้ง</option>
+              <option value="morning_glory">ผักบุ้ง</option>
+              <option value="cucumber">แตงกวา</option>
+              <option value="yardlong_bean">ถั่วฝักยาว</option>
+              <option value="tomato">มะเขือเทศ</option>
+              <option value="thai_eggplant">มะเขือเปราะ</option>
+              <option value="pumpkin">ฟักทอง</option>
+              <option value="baby_corn">ข้าวโพดอ่อน</option>
+              <option value="carrot">แครอท</option>
+              <option value="potato">มันฝรั่ง</option>
+              <option value="bitter_gourd">มะระ</option>
+              <option value="luffa">บวบ</option>
+            </optgroup>
+
+            <optgroup label="สมุนไพรและเครื่องเทศ">
+              <option value="chili_bird_eye">พริกขี้หนู</option>
+              <option value="chili_jinda">พริกจินดา</option>
+              <option value="shallot">หอมแดง</option>
+              <option value="garlic">กระเทียม</option>
+              <option value="onion">หอมหัวใหญ่</option>
+              <option value="ginger">ขิง</option>
+              <option value="galangal">ข่า</option>
+              <option value="lemongrass">ตะไคร้</option>
+              <option value="kaffir_lime">มะกรูด</option>
+              <option value="basil_holy">กะเพรา</option>
+              <option value="basil_sweet">โหระพา</option>
+              <option value="pepper">พริกไทย</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="price-readout">
+          <span id="priceValue" class="price-value">—</span>
+          <span class="price-unit">THB / unit</span>
+          <span id="priceDelta" class="price-delta">—</span>
+        </div>
+
+        <canvas id="priceChart" class="chart chart--tall"></canvas>
+        <div class="log" id="priceLog">Loading price data…</div>
+      </section>
+
+      <section class="card" aria-labelledby="weatherTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">ภูมิอากาศ</span>
+            <h3 id="weatherTitle">ภาพรวมวิเคราะห์การสภาพอากาศ</h3>
+          </div>
+        </div>
+
+        <div class="chips">
+          <div class="chip">
+            <div class="chip-top">
+              <span class="chip-label">
+                <svg class="icon icon--clay" viewBox="0 0 24 24" aria-hidden="true"><rect x="10" y="3" width="4" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="17" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="12" y1="14" x2="12" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                อุณหภูมิ
+              </span>
+              <span class="chip-value" id="tempValue">—</span>
+            </div>
+            <div class="chip-bar"><div class="chip-fill chip-fill--clay" id="tempBar"></div></div>
+          </div>
+          <div class="chip">
+            <div class="chip-top">
+              <span class="chip-label">
+                <svg class="icon icon--monsoon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 16a4 4 0 0 1 .7-7.95A5.5 5.5 0 0 1 18 9.5 3.5 3.5 0 0 1 17.5 16H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><line x1="9" y1="19" x2="9" y2="21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="13" y1="19" x2="13" y2="21.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="17" y1="19" x2="17" y2="21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                ฝนตก
+              </span>
+              <span class="chip-value" id="rainValue">—</span>
+            </div>
+            <div class="chip-bar"><div class="chip-fill chip-fill--monsoon" id="rainBar"></div></div>
+          </div>
+        </div>
+
+        <canvas id="weatherChart" class="chart"></canvas>
+        <div class="log" id="weatherLog">Loading weather data…</div>
+      </section>
+
+    </div>
+
+    <div class="grid">
+
+      <section class="card" aria-labelledby="waterTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">Infrastructure</span>
+            <h3 id="waterTitle">ระดับน้ำในเขื่อน</h3>
+            <div class="dam-location" style="font-size: 0.9rem; color: #666; margin-top: 4px;">
+              ชื่อเขื่อน: <strong id="damName">เขื่อนอุบลรัตน์</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="tank-row">
+          <div class="tank" role="img" aria-label="Reservoir fill level">
+            <div class="tank-fill" id="tankFill">
+              <span class="wave wave1" aria-hidden="true"></span>
+              <span class="wave wave2" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="tank-side">
+            <div class="tank-readout-big">
+              <span id="tankReadout" class="tank-percent">—</span>
+              <span class="tank-unit">of capacity</span>
+            </div>
+            <canvas id="waterChart" class="chart chart--short"></canvas>
+            <div class="log" id="waterLog">Loading water data…</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="newsTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">Advisory</span>
+            <h3 id="newsTitle">Notice board — <span id="provName2">—</span></h3>
+          </div>
+        </div>
+
+        <div id="newsBox" class="news-box">Loading news…</div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="board-footer">
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="12" y1="11" x2="12" y2="16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="0.9" fill="currentColor" stroke="none"/></svg>
+    CRA Data Board — figures shown are simulated for demonstration.
+  </footer>
+
+</div>
+
+<script src="/static/app.js"></script>
+
+</body>
+</html>
