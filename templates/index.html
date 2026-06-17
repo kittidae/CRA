@@ -83,10 +83,81 @@
           </div>
           
           <select id="cropSelect" class="custom-select" onchange="loadPriceData()">
-            <option value="rice">ข้าว</option>
-            <option value="corn">ข้าวโพด</option>
-            <option value="mango">มะม่วง</option>
-            <option value="cassava">มันสำปะหลัง</option>
+            <optgroup label="พืชไร่และธัญพืช">
+              <option value="rice">ข้าว</option>
+              <option value="corn_feed" selected>ข้าวโพดเลี้ยงสัตว์</option>
+              <option value="corn_sweet">ข้าวโพดหวาน</option>
+              <option value="cassava">มันสำปะหลัง</option>
+              <option value="sugarcane">อ้อย</option>
+              <option value="soybean">ถั่วเหลือง</option>
+              <option value="mungbean">ถั่วเขียว</option>
+              <option value="peanut">ถั่วลิสง</option>
+              <option value="sorghum">ข้าวฟ่าง</option>
+            </optgroup>
+
+            <optgroup label="พืชเศรษฐกิจ">
+              <option value="rubber">ยางพารา</option>
+              <option value="oil_palm">ปาล์มน้ำมัน</option>
+              <option value="coconut">มะพร้าว</option>
+              <option value="coffee">กาแฟ</option>
+              <option value="cocoa">โกโก้</option>
+              <option value="eucalyptus">ยูคาลิปตัส</option>
+            </optgroup>
+
+            <optgroup label="ผลไม้">
+              <option value="mango">มะม่วง</option>
+              <option value="durian">ทุเรียน</option>
+              <option value="mangosteen">มังคุด</option>
+              <option value="rambutan">เงาะ</option>
+              <option value="longan">ลำไย</option>
+              <option value="lychee">ลิ้นจี่</option>
+              <option value="banana_hom">กล้วยหอม</option>
+              <option value="banana_namwa">กล้วยน้ำว้า</option>
+              <option value="pineapple">สับปะรด</option>
+              <option value="pomelo">ส้มโอ</option>
+              <option value="tangerine">ส้มเขียวหวาน</option>
+              <option value="papaya">มะละกอ</option>
+              <option value="watermelon">แตงโม</option>
+              <option value="guava">ฝรั่ง</option>
+              <option value="dragon_fruit">แก้วมังกร</option>
+              <option value="longkong">ลองกอง</option>
+              <option value="tamarind">มะขามหวาน</option>
+              <option value="rose_apple">ชมพู่</option>
+              <option value="jujube">พุทรา</option>
+            </optgroup>
+
+            <optgroup label="ผักสด">
+              <option value="cabbage">กะหล่ำปลี</option>
+              <option value="chinese_cabbage">ผักกาดขาว</option>
+              <option value="chinese_kale">คะน้า</option>
+              <option value="choy_sum">กวางตุ้ง</option>
+              <option value="morning_glory">ผักบุ้ง</option>
+              <option value="cucumber">แตงกวา</option>
+              <option value="yardlong_bean">ถั่วฝักยาว</option>
+              <option value="tomato">มะเขือเทศ</option>
+              <option value="thai_eggplant">มะเขือเปราะ</option>
+              <option value="pumpkin">ฟักทอง</option>
+              <option value="baby_corn">ข้าวโพดอ่อน</option>
+              <option value="carrot">แครอท</option>
+              <option value="potato">มันฝรั่ง</option>
+              <option value="bitter_gourd">มะระ</option>
+              <option value="luffa">บวบ</option>
+            </optgroup>
+
+            <optgroup label="สมุนไพรและเครื่องเทศ">
+              <option value="chili_bird_eye">พริกขี้หนู</option>
+              <option value="chili_jinda">พริกจินดา</option>
+              <option value="shallot">หอมแดง</option>
+              <option value="garlic">กระเทียม</option>
+              <option value="onion">หอมหัวใหญ่</option>
+              <option value="ginger">ขิง</option>
+              <option value="galangal">ข่า</option>
+              <option value="lemongrass">ตะไคร้</option>
+              <option value="kaffir_lime">มะกรูด</option>
+              <option value="basil_holy">กะเพรา</option>
+              <option value="basil_sweet">โหระพา</option>
+              <option value="pepper">พริกไทย</option>
+            </optgroup>
           </select>
         </div>
 
