@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CRA Data visualnality</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRA Data Board — Live Agricultural Monitor</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/static/style.css">
@@ -10,88 +15,160 @@
 
 <body>
 
-<!-- 🌸 PROVINCE SELECT MODAL -->
+<!-- PROVINCE SELECT MODAL -->
 <div id="modal" class="modal">
   <div class="modal-box">
-    <h2>Select Province</h2>
+    <span class="modal-eyebrow">CRA &middot; Data Board</span>
+    <h2>Select your province</h2>
+    <p class="modal-sub">Choose a region to load its live agricultural feed.</p>
 
+    <label class="field-label" for="province">Province</label>
     <select id="province">
-      <option value="Udon Thani">Udon Thani</option>
-      <option value="Chiang Mai">Chiang Mai</option>
-      <option value="Bangkok">Bangkok</option>
-      <option value="Khon Kaen">Khon Kaen</option>
+      <option value="Udon Thani">Udon Thani — อุดรธานี</option>
+      <option value="Chiang Mai">Chiang Mai — เชียงใหม่</option>
+      <option value="Bangkok">Bangkok — กรุงเทพมหานคร</option>
+      <option value="Khon Kaen">Khon Kaen — ขอนแก่น</option>
     </select>
 
-    <button onclick="start()">Enter Dashboard</button>
+    <button id="enterBtn" onclick="start()">Enter dashboard →</button>
   </div>
 </div>
 
-<!-- 🌾 MAIN DASHBOARD -->
+<!-- MAIN DASHBOARD -->
 <div id="dashboard" class="hidden">
 
-  <header>
-    <h1>CRA Data Dashboard</h1>
-    <p id="subtitle">Live Agricultural Monitoring System</p>
+  <!-- BOARD HEADER -->
+  <header class="board">
+    <div class="board-top">
+      <div class="board-mark">
+        <span class="board-mark-icon" aria-hidden="true">⟁</span>
+        <div>
+          <h1>CRA</h1>
+          <p class="board-tagline">Regional Agriculture Monitor</p>
+        </div>
+      </div>
+      <button class="change-province" onclick="openModal()">
+        Change province
+      </button>
+    </div>
+
+    <!-- TICKER STRIP -->
+    <div class="ticker">
+      <span class="ticker-live"><span class="dot" aria-hidden="true"></span>LIVE</span>
+      <span class="ticker-divider">|</span>
+      <span class="ticker-item">Province: <strong id="provName">—</strong></span>
+      <span class="ticker-divider">|</span>
+      <span class="ticker-item">Local time: <strong id="clock">—</strong></span>
+      <span class="ticker-divider">|</span>
+      <span class="ticker-item">Next refresh: <strong id="nextRefresh">60:00</strong></span>
+    </div>
   </header>
 
-  <!-- 🟢 TOP GRID -->
-  <div class="grid">
+  <main class="grid-wrap">
 
-    <!-- 📈 PRICE -->
-    <div class="card">
-      <h3>Price Trend (Live)</h3>
+    <!-- TOP ROW -->
+    <div class="grid">
 
-      <select id="cropSelect" onchange="loadData()">
-        <option value="rice">Rice</option>
-        <option value="corn">Corn</option>
-        <option value="mango">Mango</option>
-        <option value="cassava">Cassava</option>
-      </select>
+      <!-- PRICE -->
+      <section class="card" aria-labelledby="priceTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">Market</span>
+            <h3 id="priceTitle">Price ticker</h3>
+          </div>
+          <select id="cropSelect" onchange="loadData()">
+            <option value="rice">Rice</option>
+            <option value="corn">Corn</option>
+            <option value="mango">Mango</option>
+            <option value="cassava">Cassava</option>
+          </select>
+        </div>
 
-      <canvas id="priceChart"></canvas>
+        <div class="price-readout">
+          <span id="priceValue" class="price-value">—</span>
+          <span class="price-unit">THB / unit</span>
+          <span id="priceDelta" class="price-delta">—</span>
+        </div>
 
-      <div class="log" id="priceLog">
-        Loading price data...
-      </div>
+        <canvas id="priceChart" class="chart chart--tall"></canvas>
+        <div class="log" id="priceLog">Loading price data…</div>
+      </section>
+
+      <!-- WEATHER -->
+      <section class="card" aria-labelledby="weatherTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">Climate</span>
+            <h3 id="weatherTitle">Weather analysis</h3>
+          </div>
+        </div>
+
+        <div class="chips">
+          <div class="chip">
+            <div class="chip-top">
+              <span class="chip-label">Temperature</span>
+              <span class="chip-value" id="tempValue">—</span>
+            </div>
+            <div class="chip-bar"><div class="chip-fill chip-fill--clay" id="tempBar"></div></div>
+          </div>
+          <div class="chip">
+            <div class="chip-top">
+              <span class="chip-label">Rainfall</span>
+              <span class="chip-value" id="rainValue">—</span>
+            </div>
+            <div class="chip-bar"><div class="chip-fill chip-fill--monsoon" id="rainBar"></div></div>
+          </div>
+        </div>
+
+        <canvas id="weatherChart" class="chart"></canvas>
+        <div class="log" id="weatherLog">Loading weather data…</div>
+      </section>
+
     </div>
 
-    <!-- 🌦 WEATHER -->
-    <div class="card">
-      <h3>Weather Analysis</h3>
+    <!-- BOTTOM ROW -->
+    <div class="grid">
 
-      <canvas id="weatherChart"></canvas>
+      <!-- WATER -->
+      <section class="card" aria-labelledby="waterTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">Infrastructure</span>
+            <h3 id="waterTitle">Reservoir level</h3>
+          </div>
+        </div>
 
-      <div class="log" id="weatherLog">
-        Loading weather data...
-      </div>
+        <div class="tank-row">
+          <div class="tank" role="img" aria-label="Reservoir fill level">
+            <div class="tank-fill" id="tankFill"></div>
+            <span class="tank-readout" id="tankReadout">—</span>
+          </div>
+          <div class="tank-side">
+            <canvas id="waterChart" class="chart chart--short"></canvas>
+            <div class="log" id="waterLog">Loading water data…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEWS -->
+      <section class="card" aria-labelledby="newsTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">Advisory</span>
+            <h3 id="newsTitle">Notice board — <span id="provName2">—</span></h3>
+          </div>
+        </div>
+
+        <div id="newsBox" class="news-box">Loading news…</div>
+      </section>
+
     </div>
 
-  </div>
+  </main>
 
-  <!-- 🟣 BOTTOM GRID -->
-  <div class="grid">
-
-    <!-- 💧 WATER -->
-    <div class="card">
-      <h3>Reservoir Level</h3>
-
-      <canvas id="waterChart"></canvas>
-
-      <div class="log" id="waterLog">
-        Loading water data...
-      </div>
-    </div>
-
-    <!-- 📰 NEWS -->
-    <div class="card">
-      <h3>Agricultural News (<span id="provName"></span>)</h3>
-
-      <div id="newsBox" class="news-box">
-        Loading news...
-      </div>
-    </div>
-
-  </div>
+  <footer class="board-footer">
+    CRA Data Board — figures shown are simulated for demonstration.
+  </footer>
 
 </div>
 
