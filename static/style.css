@@ -466,23 +466,6 @@
     overflow: hidden;
   }
   
-  .wave {
-    position: absolute;
-    top: -16px;
-    left: -50%;
-    width: 200%;
-    height: 36px;
-    background: rgba(255,255,255,0.4); /* คลื่นสีขาวขุ่น */
-    border-radius: 44%;
-  }
-  .wave1 { animation: waveSpin 7s linear infinite; }
-  .wave2 { animation: waveSpin 11s linear infinite reverse; opacity: 0.6; }
-  
-  @keyframes waveSpin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-  
   .tank-side {
     flex: 1;
     display: flex;
