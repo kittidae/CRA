@@ -3,9 +3,9 @@
    =================================================== */
 :root {
   /* color */
-  --paddy:        hsl(150, 58%, 79%);
-  --paddy-light:  #abf8cf;
-  --paddy-deep:   hsl(148, 15%, 81%);
+  --paddy:        oklab(75.565% -0.15211 0.06718);
+  --paddy-light:  hsl(148, 50%, 56%);
+  --paddy-deep:   lab(70.92% 14.43 24.95);
   --husk:         #e7ece6;
   --husk-soft:    #FBE7C2;
   --clay:         #BC5A2E;
@@ -36,6 +36,7 @@
     transition-duration: 0.001ms !important;
   }
 }
+
  
 * { box-sizing: border-box; }
  
