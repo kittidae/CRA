@@ -338,10 +338,10 @@ button:active { transform: translateY(1px); }
  
 .chart {
   width: 100% !important;
-  height: 140px !important;
+  height: 220px !important;
 }
-.chart--tall { height: 150px !important; }
-.chart--short { height: 80px !important; }
+.chart--tall { height: 280px !important; }
+.chart--short { height: 160px !important; }
  
 /* ===================================================
    PRICE READOUT
