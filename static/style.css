@@ -352,10 +352,10 @@
   
   .chart {
     width: 100% !important;
-    height: 240px !important; /* ให้กราฟสูงขึ้นนิดนึงจะได้ไม่แบน */
+    height: 320px !important; /* ให้กราฟสูงขึ้นนิดนึงจะได้ไม่แบน */
   }
-  .chart--tall { height: 280px !important; }
-  .chart--short { height: 160px !important; }
+  .chart--tall { height: 380px !important; }
+  .chart--short { height: 220px !important; }
   
   /* ===================================================
      PRICE READOUT
