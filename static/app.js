@@ -25,13 +25,13 @@ function start() {
     initCharts();
   }
 
-  loadData();
+  loadAllData();
   startClock();
 
   if (!refreshIntervalId) {
     secondsToRefresh = REFRESH_MS / 1000;
     refreshIntervalId = setInterval(() => {
-      loadData();
+      loadAllData();
       secondsToRefresh = REFRESH_MS / 1000;
     }, REFRESH_MS);
 
@@ -58,6 +58,96 @@ function updateRefreshLabel() {
   const s = Math.floor(secondsToRefresh % 60).toString().padStart(2, "0");
   const el = document.getElementById("nextRefresh");
   if (el) el.innerText = `${m}:${s}`;
+}
+
+// ฟังก์ชันหลัก: โหลดข้อมูลทั้งหมดพร้อมกัน
+async function loadAllData() {
+  try {
+    await fetch("/analyze", { method: "POST" });
+  } catch (err) {
+    console.warn("Backend /analyze not reachable, using simulated data.", err);
+  }
+  
+  loadPriceData();
+  loadEnvironmentData();
+}
+
+// ฟังก์ชันย่อยที่ 1: โหลดเฉพาะราคาผลผลิต
+function loadPriceData() {
+  const now = new Date().toLocaleTimeString();
+  let price = 18 + Math.random() * 12;
+
+  priceChart.data.labels.push(now);
+  priceChart.data.datasets[0].data.push(price);
+  trim(priceChart);
+  priceChart.update();
+
+  document.getElementById("priceValue").innerText = price.toFixed(2);
+  document.getElementById("priceLog").innerHTML = `อัปเดตราคาล่าสุดเวลา ${now}`;
+
+  const deltaEl = document.getElementById("priceDelta");
+  if (prevPrice !== null) {
+    const diff = price - prevPrice;
+    const sign = diff >= 0 ? "+" : "";
+    deltaEl.innerText = `${sign}${diff.toFixed(2)}`;
+    deltaEl.className = "price-delta " + (diff >= 0 ? "up" : "down");
+  } else {
+    deltaEl.innerText = "baseline";
+    deltaEl.className = "price-delta";
+  }
+  prevPrice = price;
+}
+
+// ฟังก์ชันย่อยที่ 2: โหลดเฉพาะสภาพอากาศ น้ำ และข่าวสาร
+function loadEnvironmentData() {
+  const now = new Date().toLocaleTimeString();
+
+  /* WEATHER */
+  let temp = 25 + Math.random() * 10;
+  let rain = Math.random() * 100;
+
+  weatherChart.data.labels.push(now);
+  weatherChart.data.datasets[0].data.push(temp);
+  weatherChart.data.datasets[1].data.push(rain);
+  trim(weatherChart);
+  weatherChart.update();
+
+  document.getElementById("tempValue").innerText = `${temp.toFixed(1)}°C`;
+  document.getElementById("tempBar").style.width = `${clamp((temp - 20) / 20 * 100, 0, 100)}%`;
+
+  document.getElementById("rainValue").innerText = `${rain.toFixed(0)}%`;
+  document.getElementById("rainBar").style.width = `${clamp(rain, 0, 100)}%`;
+
+  document.getElementById("weatherLog").innerHTML =
+    `อุณหภูมิเฉลี่ย ${avg(weatherChart.data.datasets[0].data).toFixed(1)}°C · ฝนตกเฉลี่ย ${avg(weatherChart.data.datasets[1].data).toFixed(1)}%`;
+
+  /* WATER / RESERVOIR */
+  let water = 60 + Math.random() * 25;
+
+  waterChart.data.labels.push(now);
+  waterChart.data.datasets[0].data.push(water);
+  trim(waterChart);
+  waterChart.update();
+
+  document.getElementById("tankFill").style.height = `${clamp(water, 0, 100)}%`;
+  document.getElementById("tankReadout").innerText = `${water.toFixed(0)}%`;
+  document.getElementById("waterLog").innerHTML = `ระดับน้ำ ${water.toFixed(1)}% · แนวโน้มคงที่`;
+
+  /* NEWS */
+  document.getElementById("newsBox").innerHTML = `
+    <div class="news-item">
+      ประกาศเฝ้าระวังพายุในพื้นที่ ${province} สัปดาห์นี้
+      <small>${now}</small>
+    </div>
+    <div class="news-item">
+      พบความผันผวนของราคาผลผลิตในตลาดระดับภูมิภาค
+      <small>${now}</small>
+    </div>
+    <div class="news-item">
+      อัปเดตคำแนะนำการเพาะปลูกจากสำนักงานเกษตรจังหวัด
+      <small>${now}</small>
+    </div>
+  `;
 }
 
 /* CHART SETUP */
