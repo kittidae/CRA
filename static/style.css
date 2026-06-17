@@ -98,6 +98,14 @@
     text-align: left;
   }
   
+  /* เลือกปุ่มเฉพาะที่อยู่ใน modal-box เพื่อจัดกึ่งกลาง */
+  .modal-box button {
+    display: block;       /* เปลี่ยนเป็น block เพื่อให้คำนวณ margin ได้ */
+    margin: 24px auto 0;  /* auto ซ้าย-ขวา จะดันปุ่มมาอยู่ตรงกลางทันที */
+   /* แถม: ขยายเพิ่มความกว้างให้กดง่ายและสมดุลขึ้นอีกนิด (ปรับเปลี่ยนตามใจชอบได้ครับ) */
+    padding: 13px 36px;   
+  }
+  
   .modal-eyebrow {
     display: inline-block;
     font-family: var(--font-mono);
