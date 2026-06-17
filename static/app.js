@@ -23,7 +23,7 @@ function start() {
 
   if (!priceChart) {
     initCharts();
-    preFillData(); // สร้างข้อมูลย้อนหลังให้กราฟแสดงเส้นได้ทันที
+    preFillData(); 
   }
 
   loadAllData();
@@ -61,11 +61,11 @@ function updateRefreshLabel() {
   if (el) el.innerText = `${m}:${s}`;
 }
 
-// ฟังก์ชันจำลองข้อมูลย้อนหลังให้กราฟมีเส้นตั้งแต่เริ่มเปิดเว็บ
+// ฟังก์ชันสร้างข้อมูลย้อนหลัง
 function preFillData() {
   let now = new Date();
   for (let i = 5; i > 0; i--) {
-    let pastTime = new Date(now.getTime() - i * REFRESH_MS);
+    let pastTime = new Date(now.getTime() - i * (REFRESH_MS / 6)); 
     let timeStr = pastTime.toLocaleTimeString();
 
     priceChart.data.labels.push(timeStr);
@@ -78,21 +78,23 @@ function preFillData() {
     waterChart.data.labels.push(timeStr);
     waterChart.data.datasets[0].data.push(60 + Math.random() * 25);
   }
+  
+  // บังคับอัปเดตให้กราฟโชว์เส้นทันที
+  priceChart.update();
+  weatherChart.update();
+  waterChart.update();
 }
 
-// ฟังก์ชันหลัก: โหลดข้อมูลทั้งหมดพร้อมกัน
-async function loadAllData() {
-  try {
-    await fetch("/analyze", { method: "POST" });
-  } catch (err) {
+// เอาคำว่า await ออก จะได้ไม่บล็อกหน้าเว็บ
+function loadAllData() {
+  fetch("/analyze", { method: "POST" }).catch(err => {
     console.warn("Backend /analyze not reachable, using simulated data.", err);
-  }
+  });
   
   loadPriceData();
   loadEnvironmentData();
 }
 
-// ฟังก์ชันย่อยที่ 1: โหลดเฉพาะราคาผลผลิต
 function loadPriceData() {
   const now = new Date().toLocaleTimeString();
   let price = 18 + Math.random() * 12;
@@ -118,11 +120,9 @@ function loadPriceData() {
   prevPrice = price;
 }
 
-// ฟังก์ชันย่อยที่ 2: โหลดเฉพาะสภาพอากาศ น้ำ และข่าวสาร
 function loadEnvironmentData() {
   const now = new Date().toLocaleTimeString();
 
-  /* WEATHER */
   let temp = 25 + Math.random() * 10;
   let rain = Math.random() * 100;
 
@@ -141,7 +141,6 @@ function loadEnvironmentData() {
   document.getElementById("weatherLog").innerHTML =
     `อุณหภูมิเฉลี่ย ${avg(weatherChart.data.datasets[0].data).toFixed(1)}°C · ฝนตกเฉลี่ย ${avg(weatherChart.data.datasets[1].data).toFixed(1)}%`;
 
-  /* WATER / RESERVOIR */
   let water = 60 + Math.random() * 25;
 
   waterChart.data.labels.push(now);
@@ -153,7 +152,6 @@ function loadEnvironmentData() {
   document.getElementById("tankReadout").innerText = `${water.toFixed(0)}%`;
   document.getElementById("waterLog").innerHTML = `ระดับน้ำ ${water.toFixed(1)}% · แนวโน้มคงที่`;
 
-  /* NEWS */
   document.getElementById("newsBox").innerHTML = `
     <div class="news-item">
       ประกาศเฝ้าระวังพายุในพื้นที่ ${province} สัปดาห์นี้
@@ -170,7 +168,6 @@ function loadEnvironmentData() {
   `;
 }
 
-/* CHART SETUP */
 function baseGridOptions() {
   return {
     responsive: true,
@@ -194,7 +191,7 @@ function initCharts() {
         borderColor: "#D9A441",
         backgroundColor: "rgba(217,164,65,0.12)",
         borderWidth: 2,
-        pointRadius: 2, // ปรับให้แสดงจุดเล็กๆ เพื่อความสวยงาม
+        pointRadius: 2, 
         fill: true,
         tension: 0.35
       }]
@@ -213,7 +210,7 @@ function initCharts() {
           borderColor: "#BC5A2E",
           backgroundColor: "rgba(188,90,46,0.08)",
           borderWidth: 2,
-          pointRadius: 2, // ปรับให้แสดงจุดเล็กๆ
+          pointRadius: 2, 
           tension: 0.35
         },
         {
@@ -222,7 +219,7 @@ function initCharts() {
           borderColor: "#2E7CA6",
           backgroundColor: "rgba(46,124,166,0.08)",
           borderWidth: 2,
-          pointRadius: 2, // ปรับให้แสดงจุดเล็กๆ
+          pointRadius: 2, 
           tension: 0.35
         }
       ]
@@ -243,7 +240,7 @@ function initCharts() {
         borderColor: "#2E7CA6",
         backgroundColor: "rgba(46,124,166,0.1)",
         borderWidth: 2,
-        pointRadius: 2, // ปรับให้แสดงจุดเล็กๆ
+        pointRadius: 2, 
         fill: true,
         tension: 0.35
       }]
@@ -252,7 +249,6 @@ function initCharts() {
   });
 }
 
-/* UTIL */
 function trim(chart) {
   if (chart.data.labels.length > 10) {
     chart.data.labels.shift();

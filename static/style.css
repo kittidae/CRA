@@ -544,21 +544,23 @@
   /* ===================================================
    CUSTOM SELECT (กล่องเลือกพืชผล)
    =================================================== */
-.custom-select {
-  padding: 8px 12px;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: 14px;
-  color: #333;
-  background-color: #fff;
-  border: 1px solid #caced1;
-  border-radius: var(--radius-sm, 6px);
-  cursor: pointer;
-  outline: none;
-  min-width: 140px; /* บังคับให้กล่องมีความกว้างพอดี ไม่หดเล็กเกินไป */
-  transition: all 0.2s ease;
-}
+  .custom-select {
+    padding: 8px 12px;
+    font-family: var(--font-body); /* แก้เป็น var(--font-body) เพื่อให้ตรงกับฟอนต์ทั้งเว็บ */
+    font-weight: 600; /* ปรับเป็น 600 ให้ตัวอักษรชัดขึ้น */
+    font-size: 14.5px;
+    color: var(--ink);
+    background-color: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    outline: none;
+    min-width: 140px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02); /* ใส่เงาบางๆ ให้ดูลอยขึ้นมา */
+  }
 
-.custom-select:hover, .custom-select:focus {
-  border-color: #2E7CA6;
-}
+  .custom-select:hover, .custom-select:focus {
+    border-color: var(--monsoon); /* ใช้สีฟ้าของธีมแทนให้เข้ากัน */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
