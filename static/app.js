@@ -19,7 +19,15 @@ function start() {
   document.getElementById("dashboard").classList.remove("hidden");
 
   document.getElementById("provName").innerText = province;
-  document.getElementById("provName2").innerText = province;
+  
+  if (document.getElementById("provName2")) {
+    document.getElementById("provName2").innerText = province;
+  }
+
+  // =========================================================
+  // เรียกใช้ฟังก์ชันเปลี่ยนชื่อเขื่อนตามจังหวัดที่เลือกตรงนี้ครับ
+  // =========================================================
+  updateDamName(province);
 
   if (!priceChart) {
     initCharts();
@@ -263,4 +271,57 @@ function avg(arr) {
 
 function clamp(n, min, max) {
   return Math.min(max, Math.max(min, n));
+}
+
+// =========================================================
+// ฟังก์ชันอัปเดตชื่อเขื่อนตามจังหวัดที่เลือก
+// =========================================================
+function updateDamName(provinceValue) {
+  const damNameElement = document.getElementById('damName');
+  if (!damNameElement) return;
+
+  // คู่อันดับ จังหวัด -> เขื่อนประจำจังหวัด
+  let damName = "เขื่อนเอนกประสงค์ประจำจังหวัด"; // ค่าเริ่มต้นถ้าไม่ตรงกับเงื่อนไขใดๆ
+
+  switch (provinceValue) {
+    case "Khon Kaen":
+      damName = "เขื่อนอุบลรัตน์";
+      break;
+    case "Udon Thani":
+      damName = "เขื่อนห้วยหลวง";
+      break;
+    case "Kalasin":
+      damName = "เขื่อนลำปาว";
+      break;
+    case "Maha Sarakham":
+      damName = "อ่างเก็บน้ำแก่งเลิงจาน";
+      break;
+    case "Roi Et":
+      damName = "อ่างเก็บน้ำธวัชชัย";
+      break;
+    case "Nakhon Ratchasima":
+      damName = "เขื่อนลำตะคอง";
+      break;
+    case "Buriram":
+      damName = "อ่างเก็บน้ำห้วยจรเข้มาก";
+      break;
+    case "Surin":
+      damName = "อ่างเก็บน้ำห้วยเสนง";
+      break;
+    case "Chiang Mai":
+      damName = "เขื่อนแม่งัดสมบูรณ์ชล";
+      break;
+    case "Bangkok":
+      damName = "ระดับน้ำเจ้าพระยา (สถานีสูบน้ำหลัก)";
+      break;
+    case "Chonburi":
+      damName = "เขื่อนบางพระ";
+      break;
+    case "Phuket":
+      damName = "อ่างเก็บน้ำบางวาด";
+      break;
+  }
+
+  // เปลี่ยนข้อความบนหน้าจอ
+  damNameElement.innerText = damName;
 }
