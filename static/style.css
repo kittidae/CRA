@@ -540,3 +540,25 @@
     max-width: 1220px;
     margin: 0 auto;
   }
+
+  /* ===================================================
+   CUSTOM SELECT (กล่องเลือกพืชผล)
+   =================================================== */
+.custom-select {
+  padding: 8px 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  outline: none;
+  min-width: 140px; /* บังคับให้กล่องมีความกว้างพอดี ไม่หดเล็กเกินไป */
+  transition: all 0.2s ease;
+}
+
+.custom-select:hover, .custom-select:focus {
+  border-color: #2E7CA6;
+}

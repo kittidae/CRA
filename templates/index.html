@@ -81,19 +81,7 @@
     <div class="grid">
 
       <!-- PRICE -->
-      <section class="card" aria-labelledby="priceTitle">
-        <div class="card-head">
-          <div>
-            <span class="card-eyebrow">การตลาด</span>
-            <h3 id="priceTitle">ราคา</h3>
-          </div>
-          <select id="cropSelect" onchange="loadPriceData()"></select>
-            <option value="rice">ข้าว</option>
-            <option value="corn">ข้าวโพด</option>
-            <option value="mango">มะม่วง</option>
-            <option value="cassava">มันสำปะหลัง</option>
-          </select>
-        </div>
+      
 
         <div class="price-readout">
           <span id="priceValue" class="price-value">—</span>
@@ -105,7 +93,21 @@
         <div class="log" id="priceLog">Loading price data…</div>
       </section>
 
-      <!-- WEATHER -->
+      <!-- WEATHER --><section class="card" aria-labelledby="priceTitle">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">ข้อมูลการตลาด</span>
+            <h3 id="priceTitle">ราคา</h3>
+          </div>
+          
+          <select id="cropSelect" class="custom-select" onchange="loadPriceData()">
+            <option value="rice">ข้าว</option>
+            <option value="corn">ข้าวโพด</option>
+            <option value="mango">มะม่วง</option>
+            <option value="cassava">มันสำปะหลัง</option>
+          </select>
+          
+        </div>
       <section class="card" aria-labelledby="weatherTitle">
         <div class="card-head">
           <div>
