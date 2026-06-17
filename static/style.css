@@ -545,21 +545,31 @@
    CUSTOM SELECT (กล่องเลือกพืชผล)
    =================================================== */
   .custom-select {
-    padding: 8px 12px;
-    font-family: var(--font-body); /* แก้เป็น var(--font-body) เพื่อให้ตรงกับฟอนต์ทั้งเว็บ */
-    font-weight: 600; /* ปรับเป็น 600 ให้ตัวอักษรชัดขึ้น */
-    font-size: 14.5px;
+    font-family: var(--font-body);
+    font-size: 18px !important; /* ขยายตัวอักษรให้ใหญ่ขึ้นมาก */
+    font-weight: 700 !important; /* ทำให้ตัวหนาขึ้น */
     color: var(--ink);
     background-color: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
+    
+    /* ขยายขนาดกล่อง */
+    padding: 10px 24px 10px 16px !important; /* เพิ่มพื้นที่ว่างด้านในกล่อง */
+    min-width: 180px !important; /* บังคับความกว้างขั้นต่ำให้กล่องดูยาวขึ้น */
+    height: 50px !important; /* บังคับความสูง */
+    
+    /* ตกแต่งกรอบและเงา */
+    border: 2px solid #E8EBE9 !important; /* เส้นขอบหนาขึ้นนิดนึงให้ชัดเจน */
+    border-radius: 12px !important; /* ทำให้ขอบมนขึ้นอีกนิด */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important; /* ใส่เงาให้กล่องลอยเด่นขึ้นมา */
+    
     cursor: pointer;
     outline: none;
-    min-width: 140px;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02); /* ใส่เงาบางๆ ให้ดูลอยขึ้นมา */
   }
 
+  .custom-select:hover, .custom-select:focus {
+    border-color: var(--monsoon) !important; 
+    box-shadow: 0 4px 12px rgba(87, 157, 190, 0.15) !important; /* เปลี่ยนสีเงาเวลากด */
+  }
   .custom-select:hover, .custom-select:focus {
     border-color: var(--monsoon); /* ใช้สีฟ้าของธีมแทนให้เข้ากัน */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
