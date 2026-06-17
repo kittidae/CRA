@@ -633,6 +633,8 @@
     text-align: center;
   }
 
+  
+
   /* ปรับขนาดกล่อง Modal (หน้าเลือกจังหวัดตอนแรก) ให้พอดีขอบจอมือถือ */
   .modal-box {
     width: 90% !important;
