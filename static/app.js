@@ -7,6 +7,38 @@ let secondsToRefresh = 60 * 60;
 
 const REFRESH_MS = 60 * 60 * 1000; // 1 hour
 
+// =========================================================
+// 1. ชุดข้อมูลจำลองเรื่องดินและแร่ธาตุ (Mock Data)
+// อิงตามค่า Value ของแต่ละจังหวัดที่คุณตั้งไว้
+// =========================================================
+const soilData = {
+  "Udon Thani": {
+    moisture: 45, moistureStatus: "เหมาะสม", colorText: "var(--paddy)", colorBg: "var(--sage-soft)",
+    n: { value: 60, text: "ปานกลาง", color: "var(--paddy)" },
+    p: { value: 30, text: "ต่ำ", color: "var(--husk)" },
+    k: { value: 85, text: "สูง", color: "var(--paddy-deep)" }
+  },
+  "Chiang Mai": {
+    moisture: 75, moistureStatus: "ชื้นมาก", colorText: "var(--monsoon)", colorBg: "var(--monsoon-soft)",
+    n: { value: 80, text: "สูง", color: "var(--paddy-deep)" },
+    p: { value: 65, text: "ปานกลาง", color: "var(--paddy)" },
+    k: { value: 40, text: "ต่ำ", color: "var(--husk)" }
+  },
+  "Khon Kaen": {
+    moisture: 25, moistureStatus: "แห้งแล้ง", colorText: "var(--clay)", colorBg: "var(--clay-soft)",
+    n: { value: 20, text: "ต่ำมาก", color: "var(--clay)" },
+    p: { value: 45, text: "ปานกลาง", color: "var(--paddy)" },
+    k: { value: 50, text: "ปานกลาง", color: "var(--paddy)" }
+  },
+  // สามารถเพิ่มจังหวัดอื่นๆ เข้ามาได้ตามต้องการ
+  "Default": {
+    moisture: 50, moistureStatus: "ปกติ", colorText: "var(--paddy)", colorBg: "var(--sage-soft)",
+    n: { value: 50, text: "ปกติ", color: "var(--paddy)" },
+    p: { value: 50, text: "ปกติ", color: "var(--paddy)" },
+    k: { value: 50, text: "ปกติ", color: "var(--paddy)" }
+  }
+};
+
 /* OPEN / START */
 function openModal() {
   document.getElementById("modal").style.display = "flex";
@@ -25,9 +57,10 @@ function start() {
   }
 
   // =========================================================
-  // เรียกใช้ฟังก์ชันเปลี่ยนชื่อเขื่อนตามจังหวัดที่เลือกตรงนี้ครับ
+  // อัปเดตข้อมูลตามจังหวัดที่เลือก
   // =========================================================
   updateDamName(province);
+  updateSoilData(province); // <--- เพิ่มการเรียกใช้อัปเดตข้อมูลดินตรงนี้
 
   if (!priceChart) {
     initCharts();
@@ -87,13 +120,11 @@ function preFillData() {
     waterChart.data.datasets[0].data.push(60 + Math.random() * 25);
   }
   
-  // บังคับอัปเดตให้กราฟโชว์เส้นทันที
   priceChart.update();
   weatherChart.update();
   waterChart.update();
 }
 
-// เอาคำว่า await ออก จะได้ไม่บล็อกหน้าเว็บ
 function loadAllData() {
   fetch("/analyze", { method: "POST" }).catch(err => {
     console.warn("Backend /analyze not reachable, using simulated data.", err);
@@ -280,48 +311,62 @@ function updateDamName(provinceValue) {
   const damNameElement = document.getElementById('damName');
   if (!damNameElement) return;
 
-  // คู่อันดับ จังหวัด -> เขื่อนประจำจังหวัด
-  let damName = "เขื่อนเอนกประสงค์ประจำจังหวัด"; // ค่าเริ่มต้นถ้าไม่ตรงกับเงื่อนไขใดๆ
+  let damName = "เขื่อนเอนกประสงค์ประจำจังหวัด"; 
 
   switch (provinceValue) {
-    case "Khon Kaen":
-      damName = "เขื่อนอุบลรัตน์";
-      break;
-    case "Udon Thani":
-      damName = "เขื่อนห้วยหลวง";
-      break;
-    case "Kalasin":
-      damName = "เขื่อนลำปาว";
-      break;
-    case "Maha Sarakham":
-      damName = "อ่างเก็บน้ำแก่งเลิงจาน";
-      break;
-    case "Roi Et":
-      damName = "อ่างเก็บน้ำธวัชชัย";
-      break;
-    case "Nakhon Ratchasima":
-      damName = "เขื่อนลำตะคอง";
-      break;
-    case "Buriram":
-      damName = "อ่างเก็บน้ำห้วยจรเข้มาก";
-      break;
-    case "Surin":
-      damName = "อ่างเก็บน้ำห้วยเสนง";
-      break;
-    case "Chiang Mai":
-      damName = "เขื่อนแม่งัดสมบูรณ์ชล";
-      break;
-    case "Bangkok":
-      damName = "ระดับน้ำเจ้าพระยา (สถานีสูบน้ำหลัก)";
-      break;
-    case "Chonburi":
-      damName = "เขื่อนบางพระ";
-      break;
-    case "Phuket":
-      damName = "อ่างเก็บน้ำบางวาด";
-      break;
+    case "Khon Kaen": damName = "เขื่อนอุบลรัตน์"; break;
+    case "Udon Thani": damName = "เขื่อนห้วยหลวง"; break;
+    case "Kalasin": damName = "เขื่อนลำปาว"; break;
+    case "Maha Sarakham": damName = "อ่างเก็บน้ำแก่งเลิงจาน"; break;
+    case "Roi Et": damName = "อ่างเก็บน้ำธวัชชัย"; break;
+    case "Nakhon Ratchasima": damName = "เขื่อนลำตะคอง"; break;
+    case "Buriram": damName = "อ่างเก็บน้ำห้วยจรเข้มาก"; break;
+    case "Surin": damName = "อ่างเก็บน้ำห้วยเสนง"; break;
+    case "Chiang Mai": damName = "เขื่อนแม่งัดสมบูรณ์ชล"; break;
+    case "Bangkok": damName = "ระดับน้ำเจ้าพระยา (สถานีสูบน้ำหลัก)"; break;
+    case "Chonburi": damName = "เขื่อนบางพระ"; break;
+    case "Phuket": damName = "อ่างเก็บน้ำบางวาด"; break;
+  }
+  damNameElement.innerText = damName;
+}
+
+// =========================================================
+// 2. ฟังก์ชันอัปเดตข้อมูลดินและแร่ธาตุ NPK
+// =========================================================
+function updateSoilData(provinceValue) {
+  // ดึงข้อมูลดินของจังหวัดนั้นๆ (ถ้าไม่มีให้ใช้ Default)
+  const data = soilData[provinceValue] || soilData["Default"];
+
+  // 2.1 อัปเดตความชื้น (Moisture)
+  const moistureValEl = document.getElementById('moisture-value');
+  const moistureBarEl = document.getElementById('moisture-bar');
+  const moistureStatusEl = document.getElementById('moisture-status');
+
+  if (moistureValEl) moistureValEl.innerText = data.moisture;
+  if (moistureBarEl) moistureBarEl.style.width = data.moisture + "%";
+  
+  if (moistureStatusEl) {
+    moistureStatusEl.innerText = data.moistureStatus;
+    moistureStatusEl.style.color = data.colorText;
+    moistureStatusEl.style.background = data.colorBg;
   }
 
-  // เปลี่ยนข้อความบนหน้าจอ
-  damNameElement.innerText = damName;
+  // 2.2 อัปเดตแร่ธาตุ NPK
+  const updateNutrient = (id, nutrientData) => {
+    const textEl = document.getElementById(`text-${id}`);
+    const barEl = document.getElementById(`bar-${id}`);
+    
+    if (textEl) {
+      textEl.innerText = nutrientData.text;
+      textEl.style.color = nutrientData.color;
+    }
+    if (barEl) {
+      barEl.style.width = nutrientData.value + "%";
+      barEl.style.background = nutrientData.color;
+    }
+  };
+
+  updateNutrient('n', data.n);
+  updateNutrient('p', data.p);
+  updateNutrient('k', data.k);
 }

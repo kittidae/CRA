@@ -5,19 +5,17 @@ def generate_risk(weather, news):
 
     alerts = []
 
-    # 🌧 weather logic
     if rain > 20:
-        alerts.append("🌧 ฝนตกหนักต่อเนื่อง เสี่ยงน้ำท่วมพื้นที่เกษตร")
+        alerts.append("ฝนตกหนักต่อเนื่อง เสี่ยงน้ำท่วมพื้นที่เกษตร")
 
     if temp > 35:
-        alerts.append("🔥 อุณหภูมิสูง เสี่ยงพืชขาดน้ำ")
+        alerts.append("อุณหภูมิสูง เสี่ยงพืชขาดน้ำ")
 
-    # 📰 news logic
     for n in news:
         if "ฝน" in n["title"]:
-            alerts.append("📰 ข่าวเตือนฝนกระทบพื้นที่เกษตร")
+            alerts.append("ข่าวเตือนฝนกระทบพื้นที่เกษตร")
         if "น้ำท่วม" in n["title"]:
-            alerts.append("📰 ข่าวเตือนน้ำท่วม")
+            alerts.append("ข่าวเตือนน้ำท่วม")
 
     alerts = list(set(alerts))
 
